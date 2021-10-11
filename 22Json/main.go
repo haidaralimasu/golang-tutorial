@@ -15,7 +15,8 @@ type course struct {
 
 func main() {
 	fmt.Println("go lang json")
-	EncodeJson()
+	// EncodeJson()
+	DecodeJson()
 }
 
 func EncodeJson() {
@@ -30,4 +31,43 @@ func EncodeJson() {
 	}
 	// fmt.Println(finalJson)
 	fmt.Printf("%s\n", finalJson)
+}
+
+func DecodeJson() {
+	jsonDataFormWeb := []byte(`
+	
+	{
+		"coursename": "ReactJs Bootcamp",
+		"courseprice": 299,
+		"website": "LearnCodeOnline.in",
+		"tags": [
+				"web-dev",
+				"js"
+		]
+	}
+	
+`)
+
+	var lcoCourse course
+
+	checkValid := json.Valid(jsonDataFormWeb)
+
+	if checkValid {
+		fmt.Println("valid")
+		json.Unmarshal(jsonDataFormWeb, &lcoCourse)
+		fmt.Printf("%#v\n", lcoCourse)
+	} else {
+		fmt.Println("not valid")
+	}
+
+	// some cases where you just want key value pair
+
+	var myOnlineData map[string]interface{}
+	json.Unmarshal(jsonDataFormWeb, &myOnlineData)
+	fmt.Printf("%#v\n", myOnlineData)
+
+	for k, v := range myOnlineData {
+		fmt.Printf("Key is %v and value is %v and type is : %T \n", k, v, v)
+	}
+
 }
