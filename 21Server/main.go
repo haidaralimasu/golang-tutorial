@@ -11,12 +11,12 @@ import (
 func main() {
 	fmt.Println("Welcome to web verb video - LCO")
 	//PerformGetRequest()
-	PerformPostJsonRequest()
-	// PerformPostFormRequest()
+	// PerformPostJsonRequest()
+	PerformEncodedFormData()
 }
 
 func PerformGetRequest() {
-	const myurl = "http://localhost:8000/get"
+	const myurl = "http://localhost:3000/get"
 
 	response, err := http.Get(myurl)
 	if err != nil {
@@ -65,7 +65,7 @@ func PerformPostJsonRequest() {
 }
 
 func PerformPostFormRequest() {
-	const myurl = "http://localhost:8000/postform"
+	const myurl = "http://localhost:3000/postform"
 
 	//formdata
 
@@ -84,4 +84,25 @@ func PerformPostFormRequest() {
 	content, _ := ioutil.ReadAll(response.Body)
 	fmt.Println(string(content))
 
+}
+
+func PerformEncodedFormData() {
+	const myurl = "http://localhost:3000/postform"
+
+	data := url.Values{}
+	data.Add("firstname", "haidar")
+	data.Add("lastname", "ali")
+	data.Add("email", "haidar@go.dev")
+
+	response, err := http.PostForm(myurl, data)
+
+	if err != nil {
+		panic(err)
+	}
+
+	content, _ := ioutil.ReadAll(response.Body)
+
+	fmt.Println(string(content))
+
+	defer response.Body.Close()
 }
